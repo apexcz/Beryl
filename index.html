@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Find Food Prices</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css">
+	<script src="http://code.jquery.com/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script  type="text/javascript" src="js/typeahead.min.js"></script>
+	<script type="text/javascript">
+$(document).ready(function(){
+    $('input.typeahead').typeahead({
+        name: 'countries',
+        prefetch: '../data/countries.json',
+        limit: 10
+    });
+});  
+</script>
+	<style type="text/css">
+		.item{
+    background: #333;    
+    text-align: center;
+    height: 300px !important;
+}
+.carousel{
+    margin-top: 20px;
+}
+
+.typeahead, .tt-query, .tt-hint {
+	border: 2px solid #CCCCCC;
+	border-radius: 8px;
+	font-size: 24px;
+	height: 30px;
+	line-height: 30px;
+	outline: medium none;
+	padding: 8px 12px;
+	width: 396px;
+}
+.typeahead {
+	background-color: #FFFFFF;
+}
+.typeahead:focus {
+	border: 2px solid #0097CF;
+}
+.tt-query {
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.tt-hint {
+	color: #999999;
+}
+.tt-dropdown-menu {
+	background-color: #FFFFFF;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	margin-top: 12px;
+	padding: 8px 0;
+	width: 422px;
+}
+.tt-suggestion {
+	font-size: 24px;
+	line-height: 24px;
+	padding: 3px 20px;
+}
+.tt-suggestion.tt-is-under-cursor {
+	background-color: #0097CF;
+	color: #FFFFFF;
+}
+.tt-suggestion p {
+	margin: 0;
+}
+	</style>
+</head>
+<body>
+<nav role="navigation" class="navbar navbar-default navbar-inverse navbar-fixed-top">
+    <!-- Brand and toggle get grouped for better mobile display -->
+	<div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="#" class="navbar-brand">Brand</a>
+    </div>
+    <!-- Collection of nav links, forms, and other content for toggling -->
+    <div id="navbarCollapse" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Messages <b class="caret"></b></a>
+                <ul role="menu" class="dropdown-menu">
+                    <li><a href="#">Inbox</a></li>
+                    <li><a href="#">Drafts</a></li>
+                    <li><a href="#">Sent Items</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Trash</a></li>
+                </ul>
+            </li>
+        </ul>        
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Login</a></li>
+        </ul>
+		<form role="search" class="navbar-form navbar-right">
+            <div class="form-group">
+                <input type="text" placeholder="Search" class="form-control">
+            </div>
+        </form>
+    </div>
+	</div>
+</nav>	
+	<div class="container">
+		<!-- Modal HTML -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to save changes you made to document before closing?</p>
+                <p class="text-warning"><small>If you don't save, your changes will be lost.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+		<div class="page-header">
+			<h1>Food Locate <small>Meal at your doorstep</small></h1>
+		</div>
+		 <div id="myCarousel" class="carousel slide" data-interval="3000" data-ride="carousel">
+    	<!-- Carousel indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>   
+        <!-- Carousel items -->
+        <div class="carousel-inner">
+            <div class="active item">
+                <h2>Slide 1</h2>
+         		<div class="carousel-caption">
+                  <h3>First slide label</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+            <div class="item">
+                <h2>Slide 2</h2>
+                <div class="carousel-caption">
+                  <h3>Second slide label</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+            <div class="item">
+                <h2>Slide 3</h2>
+                <div class="carousel-caption">
+                  <h3>Third slide label</h3>
+                  <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel nav -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+		<div class="jumbotron">
+            <h1>Learn to Create Websites</h1>
+            <p>In today's world internet is the most popular way of connecting with the people. At <a href="http://www.tutorialrepublic.com" target="_blank">tutorialrepublic.com</a> you will learn the essential of web development technologies along with real life practice example, so that you can create your own website to connect with the people around the world.</p>
+            <p><a href="http://www.tutorialrepublic.com" target="_blank" class="btn btn-success btn-lg">Get started today</a></p>
+        </div>
+		 <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <h2>HTML</h2>
+                <p class="text-left text-primary">Text left</p>
+				<p class="text-center text-danger">Text Center</p>
+				<p class="text-right text-warning">Text Right</p>
+				<p class="text-justify text-info">Text justify</p>
+                <p><!-- Button HTML (to Trigger Modal) -->
+<a href="#myModal" role="button" class="btn btn-large btn-primary" data-toggle="modal">Launch Demo Modal</a></p>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <h2>CSS</h2>
+				<p><img src="img/a.jpg" class="img-rounded" width="80px" height="50px" alt="Rounded Image"></p>
+				<p><img src="img/a.jpg" class="img-circle" width="80px" height="50px" alt="Rounded Image"></p>
+				<p><img src="img/a.jpg" class="img-thumbnail" width="80px" height="50px" alt="Rounded Image"></p>
+               <p><a href="http://www.tutorialrepublic.com/css-tutorial/" target="_blank" class="btn btn-success">Learn More &raquo;</a></p>
+            </div>
+			<div class="clearfix visible-sm-block"></div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <h2>Bootstrap</h2>
+                <p>Bootstrap is a powerful front-end framework for faster and easier web development. The Bootstrap tutorial section will help you learn the techniques of Bootstrap so that you can quickly create your own website.</p>
+                <p><a href="http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank" class="btn btn-success">Learn More &raquo;</a></p>
+            </div>
+			<div class="clearfix visible-md-block"></div>
+			 <div class="col-sm-6 col-md-4 col-lg-2">
+                <h2>References</h2>
+				<div class="list-group">
+    <a href="#" class="list-group-item active">
+        <span class="glyphicon glyphicon-camera"></span> Pictures <span class="badge">25</span>
+    </a>
+    <a href="#" class="list-group-item">
+        <span class="glyphicon glyphicon-file"></span> Documents <span class="badge">145</span>
+    </a>
+    <a href="#" class="list-group-item">
+        <span class="glyphicon glyphicon-music"></span> Music <span class="badge">50</span>
+    </a>
+    <a href="#" class="list-group-item">
+        <span class="glyphicon glyphicon-film"></span> Videos <span class="badge">8</span>
+    </a>
+</div>
+			   <p><a href="http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank" class="btn btn-success">Learn More &raquo;</a></p>
+            </div>
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <h2>Examples</h2>
+				<ul class="list-inline">
+					<li>Home</li>
+					<li>Products</li>
+					<li>About Us</li>
+					<li>Contact</li>
+				</ul>
+				<p><a href="http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank" class="btn btn-success">Learn More &raquo;</a></p>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2">
+                <h2>FAQ</h2>
+				<ul class="list-group">
+    <li class="list-group-item">Pictures</li>
+    <li class="list-group-item">Documents</li>        
+    <li class="list-group-item">Music</li>
+    <li class="list-group-item">Videos</li>
+</ul>
+			  <p><a href="http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank" class="btn btn-success">Learn More &raquo;</a></p>
+            </div>
+        </div>
+		<div class="row">
+			<div class="table-responsive"> 
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr class="info">
+                <th>Row</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Biography</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="danger">
+                <td>1</td>
+                <td>John</td>
+                <td>Carter</td>
+                <td>johncarter@mail.com</td>
+                <td>Lorem ipsum dolor sit amet…</td>
+            </tr>
+            <tr class="success">
+                <td>2</td>
+                <td>Peter</td>
+                <td>Parker</td>
+                <td>peterparker@mail.com</td>
+                <td>Vestibulum consectetur scelerisque…</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>John</td>
+                <td>Rambo</td>
+                <td>johnrambo@mail.com</td>
+                <td>Integer pulvinar leo id risus…</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-12 col-md-4 col-lg-4">
+				<form class="form-horizontal">
+    <div class="form-group has-success">
+        <label for="inputEmail" class="control-label col-xs-2">Email</label>
+        <div class="col-xs-10">
+            <input type="email" class="form-control input-sm" id="inputEmail" placeholder="Email">
+			<span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line.</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword" class="control-label col-xs-2">Location</label>
+        <div class="col-xs-10">
+			<input type="text" class="form-control typeahead tt-query" id="inputPassword" autocomplete="off" spellcheck="false">
+        </div>
+    </div>
+	 <div class="form-group">
+        <label for="dept" class="control-label col-xs-2">Depart</label>
+        <div class="col-xs-10">
+            <input type="date" class="form-control" id="dept" >
+        </div>
+		
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <div class="checkbox">
+                <label><input type="checkbox"> Remember me</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-2 col-xs-10">
+            <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+    </div>
+</form>
+			</div>
+				<div class="col-sm-12 col-md-8 col-lg-8">
+				<form class="form-inline">
+   <div class="form-group">
+        <label class="sr-only" for="inputEmail">Email</label>
+        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+    </div>
+	<div class="input-group">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                <input type="text" class="form-control" placeholder="Username">
+            </div>
+     <div class="form-group">
+        <label class="sr-only" for="inputPassword">Password</label>
+        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+    </div>
+	<div class="checkbox">
+        <label><input type="checkbox"> Remember me</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+   
+</form>
+
+<div class="row">
+	<div class="col-sm-12 col-md-8 col-lg-8">
+		<div class="media">
+    <a href="#" class="pull-left">
+        <img src="img/b.jpg" width="80px" height="50px" class="media-object" alt="Sample Image">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">Jhon Carter <small><i>Posted on January 10, 2014</i></small></h4>
+        <p>Excellent feature! I love it. One day I'm definitely going to put this Bootstrap component into use and I'll let you know once I do.</p>
+    </div>
+</div>
+	</div>
+</div>
+			</div>
+		
+		</div>
+		<div class="row"
+		<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">User Information</div>
+    <div class="panel-body">
+        <p>The following table contains some personal information about users.</p>
+    </div>
+    <!-- Table -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Row</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>Carter</td>
+                <td>johncarter@mail.com</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Peter</td>
+                <td>Parker</td>
+                <td>peterparker@mail.com</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>John</td>
+                <td>Rambo</td>
+                <td>johnrambo@mail.com</td>
+            </tr>
+        </tbody> 
+    </table>
+</div>
+
+		
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-6">
+				<form class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="inputEmail">Email:</label>
+        <div class="col-xs-9">
+            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="inputPassword">Password:</label>
+        <div class="col-xs-9">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="confirmPassword">Confirm Password:</label>
+        <div class="col-xs-9">
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="firstName">First Name:</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="firstName" placeholder="First Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="lastName">Last Name:</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="phoneNumber">Phone:</label>
+        <div class="col-xs-9">
+            <input type="tel" class="form-control" id="phoneNumber" placeholder="Phone Number">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3">Date of Birth:</label>
+        <div class="col-xs-3">
+            <select class="form-control">
+                <option>Date</option>
+            </select>
+        </div>
+        <div class="col-xs-3">
+            <select class="form-control">
+                <option>Month</option>
+            </select>
+        </div>
+        <div class="col-xs-3">
+            <select class="form-control">
+                <option>Year</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="postalAddress">Address:</label>
+        <div class="col-xs-9">
+            <textarea rows="3" class="form-control" id="postalAddress" placeholder="Postal Address"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3" for="ZipCode">Zip Code:</label>
+        <div class="col-xs-9">
+            <input type="text" class="form-control" id="ZipCode" placeholder="Zip Code">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-3">Gender:</label>
+        <div class="col-xs-2">
+            <label class="radio-inline">
+                <input type="radio" name="genderRadios" value="male"> Male
+            </label>
+        </div>
+        <div class="col-xs-2">
+            <label class="radio-inline">
+                <input type="radio" name="genderRadios" value="female"> Female
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-3 col-xs-9">
+            <label class="checkbox-inline">
+                <input type="checkbox" value="news"> Send me latest news and updates.
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-offset-3 col-xs-9">
+            <label class="checkbox-inline">
+                <input type="checkbox" value="agree">  I agree to the <a href="#">Terms and Conditions</a>.
+            </label>
+        </div>
+    </div>
+    <br>
+    <div class="form-group">
+        <div class="col-xs-offset-3 col-xs-9">
+            <input type="submit" class="btn btn-primary" value="Submit">
+            <input type="reset" class="btn btn-default" value="Reset">
+        </div>
+    </div>
+</form>
+			</div>
+			<div class="col-sm-12 col-md-6 col-lg-6">
+				<form>
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search&hellip;">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default">Go</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Amount">
+                <span class="input-group-addon"><input type="checkbox"></span>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" placeholder="US Dollar">
+                <span class="input-group-addon">.00</span>
+            </div>
+        </div>
+    </div>
+</form>
+			</div>
+		
+		</div>
+		
+		
+		<div class="row">
+			<div class="col-sm-6 col-md-4 col-lg-3"><p class="visible-xs-block">Box 1</p></div>
+			<div class="col-sm-6  col-md-4 col-lg-3">
+				 <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#sectionA">Section A</a></li>
+        <li><a data-toggle="tab" href="#sectionB">Section B</a></li>
+        <li class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a data-toggle="tab" href="#dropdown1">Dropdown1</a></li>
+                <li><a data-toggle="tab" href="#dropdown2">Dropdown2</a></li>
+            </ul>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="sectionA" class="tab-pane fade in active">
+            <h3>Section A</h3>
+            <p>Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui. Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.</p>
+        </div>
+        <div id="sectionB" class="tab-pane fade">
+            <h3>Section B</h3>
+            <p>Vestibulum nec erat eu nulla rhoncus fringilla ut non neque. Vivamus nibh urna, ornare id gravida ut, mollis a magna. Aliquam porttitor condimentum nisi, eu viverra ipsum porta ut. Nam hendrerit bibendum turpis, sed molestie mi fermentum id. Aenean volutpat velit sem. Sed consequat ante in rutrum convallis. Nunc facilisis leo at faucibus adipiscing.</p>
+        </div>
+        <div id="dropdown1" class="tab-pane fade">
+            <h3>Dropdown 1</h3>
+            <p>WInteger convallis, nulla in sollicitudin placerat, ligula enim auctor lectus, in mollis diam dolor at lorem. Sed bibendum nibh sit amet dictum feugiat. Vivamus arcu sem, cursus a feugiat ut, iaculis at erat. Donec vehicula at ligula vitae venenatis. Sed nunc nulla, vehicula non porttitor in, pharetra et dolor. Fusce nec velit velit. Pellentesque consectetur eros.</p>
+        </div>
+        <div id="dropdown2" class="tab-pane fade">
+            <h3>Dropdown 2</h3>
+            <p>Donec vel placerat quam, ut euismod risus. Sed a mi suscipit, elementum sem a, hendrerit velit. Donec at erat magna. Sed dignissim orci nec eleifend egestas. Donec eget mi consequat massa vestibulum laoreet. Mauris et ultrices nulla, malesuada volutpat ante. Fusce ut orci lorem. Donec molestie libero in tempus imperdiet. Cum sociis natoque penatibus et magnis dis parturient.</p>
+        </div>
+    </div>
+			</div>
+			<div class="clearfix visible-sm-block"></div>
+			<div class="col-sm-6  col-md-4 col-lg-3"><p>Box 3</p></div>
+			<div class="clearfix visible-md-block"></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 4</p></div>
+			<div class="clearfix visible-sm-block"></div>
+			<div class="clearfix visible-lg-block"></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 5</p></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 6</p></div>
+			<div class="clearfix visible-sm-block"></div>
+			<div class="clearfix visible-md-block"></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 7</p></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 8</p></div>
+			<div class="clearfix visible-sm-block"></div>
+			<div class="clearfix visible-lg-block"></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 9</p></div>
+			<div class="clearfix visible-md-block"></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 10</p></div>
+			<div class="clearfix visible-sm-block"></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 11</p></div>
+			<div class="col-sm-6 col-md-4 col-lg-3"><p>Box 12</p></div>
+		</div>
+		<hr>
+        <div class="row">
+            <div class="col-xs-12">
+                <footer>
+                    <p>&copy; Copyright 2013 Tutorial Republic</p>
+                </footer>
+            </div>
+        </div>
+	</div>
+</body>
+</html>
